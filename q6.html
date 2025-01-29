@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zeno's Paradox - Achilles and the Tortoise</title>
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+      .svg1 {
+        width: 100%;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Zeno's Paradox of Achilles and the Tortoise</h2>
+    <button
+      onclick="resetAnimation()"
+      style="
+        background: red;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+      "
+    >
+      Start!
+    </button>
+    <p>Tortoise progress: <span id="tortoise-progress">0</span>%</p>
+
+    <svg class="svg1">
+      <circle id="tortoise-circle" cx="49%" cy="55" r="20" fill="green" />
+    </svg>
+
+    <p>Achilles progress: <span id="achilles-progress">0</span>%</p>
+    <svg class="svg1">
+      <circle id="achilles-circle" cx="0%" cy="45" r="30" />
+    </svg>
+
+    <h2>second case</h2>
+
+    <p>Tortoise progress 2: <span id="tortoise-12-progress">0</span>%</p>
+    <svg class="svg1">
+      <circle id="tortoise-12-circle" cx="49%" cy="55" r="20" fill="green" />
+    </svg>
+
+    <p>Achilles progress 2: <span id="achilles-25-progress">0</span>%</p>
+    <svg class="svg1">
+      <circle id="achilles-25-circle" cx="0%" cy="35" r="30" fill="blue" />
+    </svg>
+
+    <script>
+      let startTime;
+      const duration = 1000;
+      function animate() {
+        const now = Date.now() - startTime;
+        const progress = Math.min(1, now / duration);
+
+        document.getElementById("tortoise-progress").innerText = Math.round(
+          progress * 25
+        );
+        document.getElementById("achilles-progress").innerText = Math.round(
+          progress * 50
+        );
+        document.getElementById("tortoise-12-progress").innerText = Math.round(
+          progress * 12.5
+        );
+        document.getElementById("achilles-25-progress").innerText = Math.round(
+          progress * 25
+        );
+
+        document
+          .getElementById("tortoise-circle")
+          .setAttribute("cx", `${49 + progress * 25}%`);
+        document
+          .getElementById("tortoise-12-circle")
+          .setAttribute("cx", `${49 + progress * 37.5}%`);
+        document
+          .getElementById("achilles-circle")
+          .setAttribute("cx", `${progress * 50}%`);
+        document
+          .getElementById("achilles-25-circle")
+          .setAttribute("cx", `${progress * 75}%`);
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      }
+
+      function resetAnimation() {
+        startTime = Date.now();
+        requestAnimationFrame(animate);
+      }
+    </script>
+  </body>
+</html>
